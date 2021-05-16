@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <title>JS GUESS GAME</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+      * {
+        margin-right: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #333;
+        font-family: "Roboto", sans-serif;
+      }
+
+      .container {
+        height: auto;
+        max-width: 400px;
+        margin: auto;
+        padding: 1rem;
+        background-color: #fff;
+      }
+
+      .container > h1 {
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.5rem;
+      }
+
+      .container > h4 {
+        text-align: justify;
+        font-size: 1rem;
+        letter-spacing: 1px;
+        font-weight: 500;
+        line-height: 30px;
+      }
+
+      .container .guess__input {
+        width: 100%;
+        font-size: 16px;
+        padding: 8px 20px;
+        border-radius: 6px;
+        outline: none;
+        border: 2px solid slateblue;
+      }
+
+      .container .guess__submit__button {
+        width: 100px;
+        height: 35px;
+        margin-top: 8px;
+        border: none;
+        border-radius: 8px;
+        background-color: green;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .message {
+        line-height: 30px;
+        font-size: 1.2rem;
+      }
+
+      .message-success {
+        text-align: center;
+        color: #4bb543;
+      }
+
+      .message-failure {
+        color: #db304a;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Javascript Guess Game</h1>
+      <h4>
+        In this guess you are required to guess my password, you only have 3
+        guess limits. This means that if you fail to guess my password you will
+        loose and you will no longer be my friend
+      </h4>
+
+      <input type="text" placeholder="Enter your guess" class="guess__input" />
+      <div class="message message-failure"></div>
+      <button class="guess__submit__button">submit</button>
+      <div>
+        <h3>my password = prince david</h3>
+      </div>
+    </div>
+    <script>
+      var btn = document.querySelector(".guess__submit__button");
+      var inputValue = document.querySelector(".guess__input");
+      const PASSWORD = "prince david";
+
+      var guess_limit = 4;
+      var guess_count = 0;
+
+      btn.onclick = function () {
+        if (inputValue.value.trim() == "") {
+          alert("please enter the guess");
+          return;
+        }
+
+        // whenever we click on the submit button, we increament the guess count by 1
+        guess_count++;
+
+        if (guess_count == guess_limit) {
+          inputValue.previousElementSibling.style.display = "none";
+          inputValue.style.display = "none";
+          btn.previousElementSibling.textContent =
+            "You have used all your guesses so you have lost the game and you are no longer my friend";
+          btn.previousElementSibling.className += " text-center";
+          btn.nextElementSibling.style.display = "none";
+          btn.style.display = "none";
+          return;
+        }
+
+        if (inputValue.value != PASSWORD) {
+          inputValue.value = "";
+
+          if (guess_count == 2) {
+            btn.previousElementSibling.textContent =
+              "You have remained with one guess and so don't mess up coz if u fail to guess my password you will no longer be my friend";
+            return;
+          }
+
+          if (guess_count == 3) {
+            inputValue.previousElementSibling.style.display = "none";
+            inputValue.style.display = "none";
+            btn.previousElementSibling.textContent =
+              "You have used all your guesses so you have lost the game and you are no longer my friend";
+            btn.previousElementSibling.className += " text-center";
+            btn.nextElementSibling.style.display = "none";
+            btn.style.display = "none";
+            return;
+          }
+
+          btn.previousElementSibling.textContent =
+            "Wrong guess, please try again";
+          return;
+        }
+
+        if (inputValue.value == PASSWORD) {
+          btn.previousElementSibling.innerHTML =
+            "Congratulation, you have guessed my password successfully and you will continue to be my friend";
+
+          btn.previousElementSibling.className = "message message-success";
+          inputValue.previousElementSibling.style.display = "none";
+          inputValue.style.display = "none";
+          btn.nextElementSibling.style.display = "none";
+          btn.style.display = "none";
+        }
+        guess_count = 0;
+      };
+    </script>
+  </body>
+</html>
